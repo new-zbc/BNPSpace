@@ -8,4 +8,4 @@ File "MCMCresults.RData" is the MCMC posterior samples of BNPSpace.
 
 File "result_other_method.RData" is the clustering results of MOB data for other competitive methods. 
 
-File "result_sce.RData" is a `singleCellExperiment` object containing original data, ground truth, and clustering results of each method. 
+File "result_sce.RData" is a `SingleCellExperiment` object containing original data, ground truth, and clustering results of each method. 
