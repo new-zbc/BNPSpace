@@ -34,7 +34,7 @@ prob = 0.1 # the drop out probability
 height = 40
 width = 40
 
-load("simulation/3_clusters_pattern.RData")
+load("simulation1/3_clusters_pattern.RData")
 
 for(data_index in 1:50){
   
