@@ -218,6 +218,6 @@ Louvain = list(K = est_K, label = pred_label, ARI = ARI_value)
 res_summary = list(SC.MEB1 = SC.MEB1, SC.MEB2 = SC.MEB2, DR.SC1 = DR.SC1, DR.SC2 = DR.SC2,
                    BayesSpace = BayesSpace, kmeans = k_means, GMM = GMM, Louvain = Louvain)
 
-save(res_summary, file = "real_data/MOB_data/result_other_method.RData")
+save(res_summary, file = "application/MOBdata/result_other_method.RData")
 
 
