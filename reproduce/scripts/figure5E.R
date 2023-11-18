@@ -7,8 +7,8 @@ merge_list <- function(sampleID){
   
   source("R/utils.R")
   
-  data_folder = "application/DLPFCdata"
-  file_name = paste0(data_folder, "/", sampleID, "_counts.RData")
+  data_folder = "application/DLPFC"
+  file_name = paste0(data_folder, "/data/", sampleID, "_counts.RData")
   load(file_name)
   
   ### quality control
@@ -25,7 +25,31 @@ merge_list <- function(sampleID){
   
   result_ARI = BNPSpace_res$post
   label_mat = cbind(pred_spot, result_ARI$all)
-  index = dim(result_ARI$ARI)[1] - which.max(result_ARI$ARI[, 4]) + 1
+  index_max = dim(result_ARI$ARI)[1] - which.max(result_ARI$ARI[, 4]) + 1
+  
+  
+  
+  result_label = result_ARI$pred
+  clusters = as.numeric(names(table(result_label)))
+  pred_label = rep(NA, length(result_label))
+  for(i in 1:length(result_label)){
+    for(k in 1:length(clusters)){
+      if(result_label[i] == clusters[k]){pred_label[i] = k}
+    }
+  }
+  
+  label_rename = pred_spot
+  sum_table = table(pred_label, pred_spot)
+  for(k in 1:length(unique(pred_label))){
+    index = which(sum_table[k, ] != 0)
+    if(length(index) > 1){
+      for(i in 1:length(index)){
+        label_rename[pred_spot == index[i]] = paste0(k, letters[i])
+      }
+    }else{label_rename[pred_spot == index[1]] = as.character(k)}
+  }
+  
+  colData(sce2)$BNPSpace = label_rename
   
   #plot_list = list()
   for(k in 1:dim(label_mat)[2]){
@@ -42,6 +66,11 @@ merge_list <- function(sampleID){
     
     label_mat[, k] = pred_label
   }
+  
+  
+  
+  colData(sce2)$BNPSpace = label_rename
+  
   
   label_mat = label_mat[, dim(label_mat)[2]:1]
   
@@ -77,15 +106,16 @@ merge_list <- function(sampleID){
   
   si <- 8; tsi <- 10
   
+  label_mat[, 13] = label_rename
   
   plot_list = list()
-  for( k in index:(dim(label_mat)[2])){
+  for( k in (index_max:(dim(label_mat)[2]))){
     
     colData(sce2)$BNPSpace = as.factor(label_mat[, k])
     
     p8 <- clusterPlot(sce2, label= colData(sce2)$BNPSpace, palette=NULL, size=0.05) +
       #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-      labs(title=paste0("K = ", length(unique(label_mat[, k])))) + 
+      labs(title=paste0("K = ", length(unique(label_mat[, k]))), fill = "Domains") + 
       scale_fill_manual(values = color_pal[1:length(unique(label_mat[, k]))])+
       theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
             legend.key.height = unit(0.5, 'cm'), #change legend key height
@@ -102,6 +132,16 @@ merge_list <- function(sampleID){
 
 x = merge_list(151509)
 
-pCluster <- x[[10]] + theme(plot.title = element_blank(),
-                           panel.border = element_blank())
-ggsave(pCluster, filename = "reproduce/figures_and_tables/figure5E.png", width = 5, height = 4, bg = "white")
+x[[10]] <- x[[10]] + labs(title = "BNPSpace: ARI = 0.386", filled = "Domains") + 
+                     theme(plot.title = element_text(face = "bold", size = 18, hjust = 0.5),
+                           #panel.border = element_blank(),
+                           legend.title = element_text(size = 14),
+                           legend.text = element_text(size = 12))
+
+x[[10]] <- x[[10]] + scale_fill_manual(values = c("#E377C2FF", "#F7B6D2FF", "#8C564BFF", "#9467BDFF", 
+                                                  "#2CA02CFF", "#1F77B4FF", "#17BECFFF", "#FF9896FF", 
+                                                  "#FFBB78FF", "#AEC7E8FF", "#D62728FF", "#C49C94FF", "#DBDB8DFF"))
+
+pCluster = x[[10]]
+
+ggsave(pCluster, filename = "reproduce/figures_and_tables/figure5E.png", width = 5, height = 5, bg = "white")

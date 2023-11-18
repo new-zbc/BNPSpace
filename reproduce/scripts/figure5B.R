@@ -3,13 +3,12 @@ plot_ARI = function(sampleID){
   library(ggplot2)
   library(ggrepel)
   source("R/utils.R")
-  data_folder = "application/DLPFCdata"
-  file_name = paste0(data_folder, "/", "different_K_ARI.RData")
+  data_folder = "application/DLPFC"
+  file_name = paste0(data_folder, "/", "diff_K_ARI.RData")
   load(file_name)
   
-  colnames(ARI_K_results) = c("K", "SCMEB(PCs=10)", "SCMEB(PCs=15)", "DR.SC(PCs=10)", "DR.SC(PCs=15)", "BayesSpace", "kmeans", "GMM")
-  ARI_K_results = ARI_K_results[,-c(2, 4)]
-  colnames(ARI_K_results) = c("K", "SCMEB", "DRSC", "BayesSpace", "Kmeans", "GMM")
+  ARI_K_results = ARI_K_results[, -c(5, 6)]
+  colnames(ARI_K_results) = c("K", "SCMEB", "DRSC", "BayesSpace", "Louvain", "spaGCN")
   
   library(reshape)
   ARI_K_results_melt = melt(ARI_K_results, id.vars = "K", variable_name = "Method")
@@ -31,7 +30,6 @@ plot_ARI = function(sampleID){
   
   ARI_K_results_melt = ARI_K_results_melt[!(ARI_K_results_melt$K %in% c(2, 16:20)),]
   
-  index = which.max(result_ARI$ARI)
   
   K = length(unique(ARI_K_results_melt$K))
   df = data.frame(K = 3:15, y = rep(min(ARI_K_results_melt$ARI) - 0.02, K), xend = 3:15, yend = rep(0, K))
@@ -39,9 +37,9 @@ plot_ARI = function(sampleID){
     df$yend[which(df$K == k)] = max(ARI_K_results_melt$ARI[ARI_K_results_melt$K == k])
   }
   
-  ARI_K_results_melt$Method = factor(ARI_K_results_melt$Method, levels = c("BNPSpace", "BayesSpace", 
-                                                                           "DRSC", "SCMEB", 
-                                                                           "Kmeans", "GMM"))
+  ARI_K_results_melt$Method = factor(ARI_K_results_melt$Method, levels = c("BNPSpace", "BayesSpace", "spaGCN",
+                                                                           "DRSC", "SCMEB", "Louvain"))
+  
   
   p <- ggplot() + geom_point(data = ARI_K_results_melt, aes(x = K, y = ARI, color = Method, shape = Method), size = 5)
   #geom_point() + geom_line(linetype = "dashed")
@@ -49,14 +47,13 @@ plot_ARI = function(sampleID){
   
   p <- p + geom_line(data = ARI_K_results_melt[ARI_K_results_melt$Method == "BNPSpace",], aes(x = K, y = ARI, color = Method))
   
-  p <- p + 
-    theme_bw() + theme(axis.title = element_text(size = 15, face = "bold"),
-                       axis.text = element_text(size = 15, face = "bold"),
-                       legend.text = element_text(size = 15, face = "bold"),
-                       legend.title = element_text(size = 18, face='bold'),
+  p <- p + theme_bw() + theme(axis.title = element_text(size = 22, face = "bold"),
+                       axis.text = element_text(size = 20, face = "bold"),
+                       legend.text = element_text(size = 18, face = "bold"),
+                       legend.title = element_text(size = 20, face='bold'),
                        legend.justification = c(1,1),
-                       legend.background = element_rect(colour = "black", fill = NA),
-                       legend.position = c(1, 1)) + 
+                       #legend.background = element_rect(colour = "black", fill = NA),
+                       legend.position = c(0.99, 0.99)) + 
     scale_color_manual(values = c("red", "darkgreen", "hotpink", "darkgray", "orange", "purple"))
   p
 }

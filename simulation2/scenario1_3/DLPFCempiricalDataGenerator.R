@@ -18,10 +18,10 @@ sce1 = sce1[, !is.na(colData(sce1)$label)]
 sce1 = spatialPreprocess(sce1)
 
 
-data_folder = "simulation/scenario2_2_3"
+data_folder = "simulation/scenario2_2_4"
 
 K = 7
-prob = 0.2
+prob = 0.3
 p_gamma = 20 # the number of effective variables
 p = 500 # total number of variables
 

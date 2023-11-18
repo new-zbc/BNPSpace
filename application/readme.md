@@ -1,21 +1,27 @@
 ## MOB data
 
-File *MOB_sce.RData* is a `SingleCellExperiment` object containing original count data and locations for each spot. 
+File *data/MOB_sce.RData* is a `SingleCellExperiment` object containing original count data and locations for each spot. 
 
-File *MOB_analysis.R* is the source code to analyze MOB data via BNPSpace and other competitive methods. 
+Folder *script/* contains the source code to analyze MOB data via BNPSpace and other competitive methods and the plot function to generate figures in the paper. 
 
-File "MCMCresults.RData" is the MCMC posterior samples of BNPSpace. 
+File *MCMCresults.RData* is the MCMC posterior sample of BNPSpace. 
 
-File "result_other_method.RData" is the clustering results of MOB data for other competitive methods. 
+File *clustering_result_sce.RData* is the `SingleCellExperiment` object with clustering results of MOB data. 
 
-File "result_sce.RData" is a `SingleCellExperiment` object containing original data, ground truth, and clustering results of each method. 
+File *BIC_result.RData* is the pBIC result for MOB data. 
+
+File *0-result-MOB.xlsx* is the enrichment analysis of discriminating genes.
 
 ## DLPFC data
 
-File *151509_counts.RData* is a `SingleCellExperiment` object containing original count data and locations for each spot. 
+File *data/151509_counts.RData* is a `SingleCellExperiment` object containing original count data and locations for each spot. 
 
-File *BNPSpace_results.RData* contains clustering results of BNPSpace and postprocess results after hierarchical clustering.
+Folder *script/* contains the source code to analyze MOB data via BNPSpace and other competitive methods and the plot function to generate figures in the paper. 
 
-File *different_K_ARI.RData* is clustering results of other methods given different number of clusters. 
+File *BNPSpace_results.RData* contains clustering results of BNPSpace and post-process results after hierarchical clustering.
+
+File *different_K_ARI.RData* is clustering results of other methods given different numbers of clusters. 
 
 File *result_other_method.RData* is clustering results of other competitive methods.
+
+File *0-result-DLPFC.xlsx* is the enrichment analysis of discriminating genes.

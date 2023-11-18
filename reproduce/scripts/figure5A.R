@@ -1,13 +1,5 @@
 source("R/utils.R")
-# library(ggsci)
-# mypal = pal_d3(palette = "category20")(20)
-# library(scales)
-# new_pal = mypal
-# new_pal[3] = mypal[4]
-# new_pal[4] = mypal[3]
-# color_pal = new_pal
-
-color_assign_1 <- function(pred, ground_truth, color_pal){
+color_assign <- function(pred, ground_truth, color_pal){
   R = length(unique(pred))
   C = length(unique(ground_truth))
   p_table = table(pred, ground_truth)
@@ -34,8 +26,6 @@ color_assign_1 <- function(pred, ground_truth, color_pal){
 }
 
 
-color_assign = color_assign_1
-
 
 plot_cluster <- function(sampleID){
   
@@ -44,8 +34,8 @@ plot_cluster <- function(sampleID){
                 "#AEC7E8FF", "#FFBB78FF", "#98DF8AFF", "#FF9896FF", "#C5B0D5FF",
                 "#C49C94FF", "#F7B6D2FF", "#C7C7C7FF", "#DBDB8DFF", "#9EDAE5FF")
   #show_col(color_pal)
-  data_folder = "application/DLPFCdata"
-  file_name = paste0(data_folder, "/", sampleID, "_counts.RData")
+  data_folder = "application/DLPFC"
+  file_name = paste0(data_folder, "/data/", sampleID, "_counts.RData")
   load(file_name)
   
   ### quality control
@@ -57,7 +47,7 @@ plot_cluster <- function(sampleID){
   load(paste0(data_folder, "/", "result_other_method.RData"))
   
   library(flexclust)
-  spaGCN_ARI = randIndex(colData(sce2)$spaGCN, colData(sce2)$label)
+  spaGCN_ARI = randIndex(colData(sce2)$spaGCN_7, colData(sce2)$label)
   
   
   library(BayesSpace)
@@ -73,115 +63,65 @@ plot_cluster <- function(sampleID){
   metadata(sce2)$BayesSpace.data$platform <- "Visium"
   metadata(sce2)$BayesSpace.data$is.enhanced <- FALSE
   
-  si <- 8; tsi <- 10
+  si <- 12; tsi <- 16
   
-  cluster_truth = unique(colData(sce2)$label)
-  
-  if(length(cluster_truth) == 7){
-    colData(sce2)$label = factor(colData(sce2)$label, levels = c("Layer1", "Layer2", "Layer3", "Layer4", "Layer5", "Layer6", "WM"))
-  }
-  else{
-    colData(sce2)$label = factor(colData(sce2)$label, levels = c("Layer3", "Layer4", "Layer5", "Layer6", "WM"))
-  }
-  
+  colData(sce2)$label = as.character(colData(sce2)$label)
+  colData(sce2)$label[colData(sce2)$label == "Layer1"] = "L1"
+  colData(sce2)$label[colData(sce2)$label == "Layer2"] = "L2"
+  colData(sce2)$label[colData(sce2)$label == "Layer3"] = "L3"
+  colData(sce2)$label[colData(sce2)$label == "Layer4"] = "L4"
+  colData(sce2)$label[colData(sce2)$label == "Layer5"] = "L5"
+  colData(sce2)$label[colData(sce2)$label == "Layer6"] = "L6"
+  colData(sce2)$label = factor(colData(sce2)$label, levels = c("L1", "L2", "L3", "L4", "L5", "L6", "WM"))
   
   p1 <- clusterPlot(sce2, label=colData(sce2)$label, palette=NULL, size=0.05) +
     #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,1]) +
-    labs(title="Ground Truth") + scale_fill_manual(values = color_pal[1:length(unique(colData(sce2)$label))]) +
+    labs(title="Ground Truth", fill = "Domains") + scale_fill_manual(values = color_pal[1:length(unique(colData(sce2)$label))]) +
     theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
           legend.key.height = unit(0.5, 'cm'), #change legend key height
           legend.key.width = unit(0.5, 'cm'), #change legend key width
           legend.title = element_text(size=tsi), #change legend title font size
           legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
-  
-  
-  SC_MEB = list(res_summary$SC.MEB1, res_summary$SC.MEB2)
-  index = which.max(c(res_summary$SC.MEB1$ARI, res_summary$SC.MEB2$ARI))
-  
-  colData(sce2)$SCMEB = as.factor(SC_MEB[[index]]$label)
-  
-  
-  p2 <- clusterPlot(sce2, label= colData(sce2)$SCMEB, palette=NULL, size=0.05) +
-    #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("SCMEB: ARI=", round(SC_MEB[[index]]$ARI, 3))) + 
-    scale_fill_manual(values = color_assign(colData(sce2)$SCMEB, colData(sce2)$label, color_pal))+
-    theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
-          legend.key.height = unit(0.5, 'cm'), #change legend key height
-          legend.key.width = unit(0.5, 'cm'), #change legend key width
-          legend.title = element_text(size=tsi), #change legend title font size
-          legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
-  
-  
-  DR_SC = list(res_summary$DR.SC1, res_summary$DR.SC2)
-  index = which.max(c(res_summary$DR.SC1$ARI, res_summary$DR.SC2$ARI))
-  
-  colData(sce2)$DRSC = as.factor(DR_SC[[index]]$label)
-  
-  p3 <- clusterPlot(sce2, label= colData(sce2)$DRSC, palette=NULL, size=0.05) +
-    #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("DRSC: ARI=", round(DR_SC[[index]]$ARI, 3))) + 
-    scale_fill_manual(values = color_assign(colData(sce2)$DRSC, colData(sce2)$label, color_pal))+
-    theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
-          legend.key.height = unit(0.5, 'cm'), #change legend key height
-          legend.key.width = unit(0.5, 'cm'), #change legend key width
-          legend.title = element_text(size=tsi), #change legend title font size
-          legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
+          panel.border = element_rect(colour = "black", fill=NA, size=1),
+          plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
   
   colData(sce2)$BayesSpace = as.factor(res_summary$BayesSpace$label)
   
   p4 <- clusterPlot(sce2, label= colData(sce2)$BayesSpace, palette=NULL, size=0.05) +
     #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("BayesSpace: ARI=", round(res_summary$BayesSpace$ARI, 3))) + 
+    labs(title=paste0("BayesSpace: ARI=", round(res_summary$BayesSpace$ARI, 3)), fill = "Domains") + 
     scale_fill_manual(values = color_assign(colData(sce2)$BayesSpace, colData(sce2)$label, color_pal))+
     theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
           legend.key.height = unit(0.5, 'cm'), #change legend key height
           legend.key.width = unit(0.5, 'cm'), #change legend key width
           legend.title = element_text(size=tsi), #change legend title font size
           legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
+          panel.border = element_rect(colour = "black", fill=NA, size=1),
+          plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
   
   
-  colData(sce2)$kmeans = as.factor(res_summary$kmeans$label)
-  p5 <- clusterPlot(sce2, label= colData(sce2)$kmeans, palette=NULL, size=0.05) +
+  spaGCN_7 = as.numeric(colData(sce2)$spaGCN_7) + 1
+  spaGCN_7[spaGCN_7 == 1] = 0
+  spaGCN_7[spaGCN_7 == 7] = 1
+  spaGCN_7[spaGCN_7 == 0] = 7
+  
+  spaGCN_7[spaGCN_7 == 3] = 0
+  spaGCN_7[spaGCN_7 == 4] = 3
+  spaGCN_7[spaGCN_7 == 0] = 4
+  
+  spaGCN_7 = as.factor(spaGCN_7)
+  p6 <- clusterPlot(sce2, label= spaGCN_7, palette=NULL, size=0.05) +
     #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("kmeans: ARI=", round(res_summary$kmeans$ARI, 3))) + 
-    scale_fill_manual(values = color_assign(colData(sce2)$kmeans, colData(sce2)$label, color_pal)) +
+    labs(title=paste0("spaGCN: ARI=", round(spaGCN_ARI, 3)), fill = "Domains") + 
+    scale_fill_manual(values = color_assign(spaGCN_7, colData(sce2)$label, color_pal)) +
     theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
           legend.key.height = unit(0.5, 'cm'), #change legend key height
           legend.key.width = unit(0.5, 'cm'), #change legend key width
           legend.title = element_text(size=tsi), #change legend title font size
           legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
-  
-  
-  colData(sce2)$spaGCN = as.factor(as.numeric(colData(sce2)$spaGCN)+1)
-  p6 <- clusterPlot(sce2, label= colData(sce2)$spaGCN, palette=NULL, size=0.05) +
-    #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("spaGCN: ARI=", round(spaGCN_ARI, 3))) + 
-    scale_fill_manual(values = color_assign(colData(sce2)$spaGCN, colData(sce2)$label, color_pal)) +
-    theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
-          legend.key.height = unit(0.5, 'cm'), #change legend key height
-          legend.key.width = unit(0.5, 'cm'), #change legend key width
-          legend.title = element_text(size=tsi), #change legend title font size
-          legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
-  
-  res_summary$Louvain$label = as.numeric(res_summary$Louvain$label) 
-  colData(sce2)$Louvain = as.factor(res_summary$Louvain$label)
-  
-  p7 <- clusterPlot(sce2, label= colData(sce2)$Louvain, palette=NULL, size=0.05) +
-    #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("Louvain: ARI=", round(res_summary$Louvain$ARI, 3))) + 
-    scale_fill_manual(values = color_assign(colData(sce2)$Louvain, colData(sce2)$label, color_pal))+
-    theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
-          legend.key.height = unit(0.5, 'cm'), #change legend key height
-          legend.key.width = unit(0.5, 'cm'), #change legend key width
-          legend.title = element_text(size=tsi), #change legend title font size
-          legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
+          panel.border = element_rect(colour = "black", fill=NA, size=1),
+          plot.title = element_text(size = 20, face = "bold", hjust = 0.5)) 
+ 
   
   load(paste0(data_folder, "/", "BNPSpace_results.RData"))
   result_ARI = BNPSpace_res$post
@@ -198,25 +138,24 @@ plot_cluster <- function(sampleID){
   
   p8 <- clusterPlot(sce2, label= colData(sce2)$BNPSpace, palette=NULL, size=0.05) +
     #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("BNPSpace: ARI=", round(max(result_ARI$ARI[, 4]), 3))) + 
+    labs(title=paste0("BNPSpace: ARI=", round(max(result_ARI$ARI[, 4]), 3)), fill = "Domains") + 
     scale_fill_manual(values = color_assign(colData(sce2)$BNPSpace, colData(sce2)$label, color_pal))+
     theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
           legend.key.height = unit(0.5, 'cm'), #change legend key height
           legend.key.width = unit(0.5, 'cm'), #change legend key width
           legend.title = element_text(size=tsi), #change legend title font size
           legend.text = element_text(size=si),#change legend text font size
-          panel.border = element_rect(colour = "black", fill=NA, size=1) )
+          panel.border = element_rect(colour = "black", fill=NA, size=1),
+          plot.title = element_text(size = 20, face = "bold", hjust = 0.5))
   
   library(cowplot)
-  p <- plot_grid(p1, p8, p2, p3, p4, p6, p7, p5, byrow = T, nrow = 2, ncol = 4)
+  p <- plot_grid(p1, p8,  p4, p6, byrow = T, nrow = 1, ncol = 4)
   p
   
 }
 
-
-
 cluster = plot_cluster(151509)
 
-ggsave(cluster, filename = "reproduce/figures_and_tables/figure5A.png", width = 22, height = 10, bg = "white")
+ggsave(cluster, filename = "reproduce/figures_and_tables/figure5A.png", width = 20, height = 5, bg = "white")
 
 

@@ -18,10 +18,11 @@ sce1 = sce1[, !is.na(colData(sce1)$label)]
 sce1 = spatialPreprocess(sce1)
 
 
-data_folder = "simulation2/scenario1_1"
+data_folder = "simulation/scenario2_2_2"
+
 K = 7
-prob = 0
-p_gamma = 50 # the number of effective variables
+prob = 0.1
+p_gamma = 20 # the number of effective variables
 p = 500 # total number of variables
 
 for(data_index in 1:50){
@@ -41,7 +42,7 @@ for(data_index in 1:50){
   d3 = c(effect + 6, non_effect)
   d4 = c(effect + 11, non_effect)
   
-  index1 = sample(p_gamma, 25)
+  index1 = sample(p_gamma, 10)
   index2 = base::setdiff(1:p_gamma, index1)
   
   effect5 = effect
@@ -52,7 +53,7 @@ for(data_index in 1:50){
   effect6[index2] = effect6[index2] + 3
   d6 = c(effect6, non_effect)
   
-  index3 = sample(p_gamma, 25)
+  index3 = sample(p_gamma, 10)
   effect7 = effect
   effect7[index3] = effect7[index3] + 6
   d7 = c(effect7, non_effect)

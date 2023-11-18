@@ -1,8 +1,8 @@
 plot_exp <- function(sampleID){
   
   source("R/utils.R")
-  data_folder = "application/DLPFCdata"
-  file_name = paste0(data_folder, "/", sampleID, "_counts.RData")
+  data_folder = "application/DLPFC"
+  file_name = paste0(data_folder, "/data/", sampleID, "_counts.RData")
   load(file_name)
   ### quality control
   sce2 = spatialFilter(sce1, cutoff_sample = 100, cutoff_max = 5)
@@ -49,6 +49,13 @@ plot_exp <- function(sampleID){
   seu@assays$originalexp@data@Dimnames[[1]] = seu@assays$originalexp@meta.features$gene_name
   
   seu = ScaleData(seu)
+  
+  # scale_data = seu@assays$originalexp@scale.data
+  # for(j in 1:dim(scale_data)[1]){
+  #   scale_data[j, ] = (scale_data[j, ] - min(scale_data[j, ])) / (max(scale_data[j, ])- min(scale_data[j, ]))
+  # }
+  # seu@assays$originalexp@scale.data = scale_data
+  
   Idents(seu) = as.factor(label_rename)
   names(seu@active.ident) = seu@assays$originalexp@counts@Dimnames[[2]]
   
@@ -67,10 +74,14 @@ plot_exp <- function(sampleID){
   p = DoHeatmap(seu, features = top_gene$gene,
                 group.bar = T, slot = "scale.data", size = 6,
                 label = T, draw.lines = T, combine = T) + 
-    theme(legend.text = element_text(size = 15),
-          legend.title = element_text( size = 18, face='bold'),
+    guides(colour = guide_colourbar(title = "Cluster")) +
+    theme(legend.text = element_text(size = 12),
+          legend.title = element_text( size = 14, face='bold', angle = 90),
+          #legend.position = "none",
+          #legend.title = element_blank(),
           axis.text.y = element_blank()) +
-    scale_fill_gradientn(colors = c("blue", "white", "red"))
+    scale_fill_gradientn(colors = c(low = "blue", mid = "white", high="red")) +
+    guides(fill = guide_colorbar(title = "Relative expression", title.position = "left"))
   
   p
 }

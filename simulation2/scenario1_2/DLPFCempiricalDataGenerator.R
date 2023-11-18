@@ -7,7 +7,7 @@ source("R/utils.R")
 
 sampleID = 151676
 
-data_folder = paste0("application/DLPFCdata/", sampleID)
+data_folder = paste0("real_data/DLPFC_data/", sampleID)
 
 file_name = paste0(data_folder, "/", sampleID, "_counts.RData")
 
@@ -18,10 +18,10 @@ sce1 = sce1[, !is.na(colData(sce1)$label)]
 sce1 = spatialPreprocess(sce1)
 
 
-data_folder = "simulation/scenario2_2_2"
+data_folder = "simulation/scenario2_2_3"
 
 K = 7
-prob = 0.1
+prob = 0.2
 p_gamma = 20 # the number of effective variables
 p = 500 # total number of variables
 
