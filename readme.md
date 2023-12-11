@@ -90,7 +90,5 @@ p + PPI_plot + plot_layout(nrow = 1)
 
 ### Tutorials
 
-For a tutorial on a real application, please refer to 
-
-[]: Tutorial.html	"Tutorials"
+For a tutorial on a real application, please refer to  [Tutorial.html](Tutorial.html) 
 
