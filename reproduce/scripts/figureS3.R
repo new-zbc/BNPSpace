@@ -6,14 +6,15 @@ dataRader = function(data_folder){
   
   data3 = read.table(file = paste0(data_folder, "/results/DRSC.txt"), header = TRUE, row.names = 1)
   
-  data7 = read.table(file = paste0(data_folder, "/results/Louvain.txt"), header = TRUE, row.names = 1)
+  #data7 = read.table(file = paste0(data_folder, "/results/Louvain.txt"), header = TRUE, row.names = 1)
   
   data8 = read.table(file = paste0(data_folder, "/results/BNPSpace_0.txt"), header = TRUE, row.names = 1)
   
   data_K = data.frame(BNPSpace = data1[,2], BNPSpace0 = data8[,2], SCMEB = data2[, 2],
-                        DRSC = data3[, 2], Louvain = data7[, 2])
+                        DRSC = data3[, 2])
   colnames(data_K)[2] = "BNPSpace w/o MRF"
-  colnames(data_K)[4] = "DRSC"
+  colnames(data_K)[3] = "SC-MEB"
+  colnames(data_K)[4] = "DR-SC"
   library(reshape2)
   data = melt(data_K)
   colnames(data) = c("Method", "K")
@@ -78,8 +79,8 @@ data13$K = data13$K - 7
 
 data_K = rbind(data1, data2, data3, data4, data5, data6, data7, data8, data9, data11, data12, data13)
 
-data_K$Method = factor(data_K$Method, levels = c("BNPSpace", "BNPSpace w/o MRF", "SCMEB", 
-                                                 "DRSC", "Louvain"))
+data_K$Method = factor(data_K$Method, levels = c("BNPSpace", "BNPSpace w/o MRF", "SC-MEB", 
+                                                 "DR-SC"))
 # data_K$pi = factor(data_K$pi, levels = c("0.1", "0.2", "0.3"), 
 #                    labels = c("0.1" = expression(pi == "0.1"), "0.2" = expression(pi == "0.2"), "0.3" = expression(pi == "0.3")))
 data_K$pi = factor(data_K$pi, levels = c("Low zero-inflation", "Medium zero-inflation", "High zero-inflation"))
@@ -94,13 +95,13 @@ colnames(data_K) = c("Method", "K_true", "pi", "K", "value")
 data_K$value = data_K$value / 50
 
 #### add label "4" and "5"
-data_K[166, ] = data_K[1, ]
-data_K[166, 4] = "4"
-data_K[166, 5] = 0
+data_K[129, ] = data_K[1, ]
+data_K[129, 4] = "4"
+data_K[129, 5] = 0
 
-data_K[167, ] = data_K[1, ]
-data_K[167, 4] = "5"
-data_K[167, 5] = 0
+data_K[130, ] = data_K[1, ]
+data_K[130, 4] = "5"
+data_K[130, 5] = 0
 
 data_K$K = factor(data_K$K, levels = c("-5", "-4", "-3", "-2", "-1","0",
                                        "1","2", "3", "4", "5"))
@@ -111,7 +112,7 @@ data_K$K = factor(data_K$K, levels = c("-5", "-4", "-3", "-2", "-1","0",
 barplot_K = ggplot(data = data_K, aes(x = Method, y = value, fill = K)) + 
   geom_bar(position = "stack", stat = "identity", width = 0.45, colour = "black") + 
   facet_grid(pi ~ K_true, scales = "free") + 
-  theme_bw()+ ylab("Frequency") +
+  theme_bw()+ ylab("Relative Frequency") +
   theme(legend.title = element_text(size = 18, face = "bold"), 
         axis.title.x = element_blank(), 
         axis.text.x = element_text(face = "bold", size = 12, angle = 45, hjust = 1, vjust = 1),
@@ -124,8 +125,8 @@ barplot_K = ggplot(data = data_K, aes(x = Method, y = value, fill = K)) +
   guides(fill = guide_legend(expression(hat(K) - "K")))
 
 
-ggsave(barplot_K, filename = "reproduce/figures_and_tables/figure3.png", width = 14, height = 11)
-ggsave(barplot_K, filename = "reproduce/figures_and_tables/figure3.pdf", width = 14, height = 11)
+ggsave(barplot_K, filename = "reproduce/figures_and_tables/figureS3.png", width = 14, height = 11)
+ggsave(barplot_K, filename = "reproduce/figures_and_tables/figureS3.pdf", width = 14, height = 11)
 
 
 

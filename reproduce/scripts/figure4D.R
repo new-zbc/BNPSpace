@@ -125,4 +125,4 @@ features = c("SCGB2A2", "SCGB1D2", "COX6C",
 
 pGene = spatialPlotGene(151509, features = features)
 
-ggsave(pGene, filename = "reproduce/figures_and_tables/figure5D.png", width = 10, height = 6, bg = "white")
+ggsave(pGene, filename = "reproduce/figures_and_tables/figure4D.png", width = 10, height = 6, bg = "white")

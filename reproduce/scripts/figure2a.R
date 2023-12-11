@@ -20,7 +20,7 @@ metadata(sce)$BayesSpace.data$is.enhanced <- FALSE
 
 p1 <- clusterPlot(sce, label=colData(sce)$label, palette=NULL, size=0.05) +
   #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,1]) +
-  labs(title="K = 3", fill = "Domains") + 
+  labs(title="Spatial pattern I", fill = "Domains") + 
   theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
         legend.key.height = unit(0.5, 'cm'), #change legend key height
         legend.key.width = unit(0.5, 'cm'), #change legend key width
@@ -28,7 +28,7 @@ p1 <- clusterPlot(sce, label=colData(sce)$label, palette=NULL, size=0.05) +
         legend.text = element_text(face = "bold", size=12),#change legend text font size
         panel.border = element_rect(colour = "black", fill=NA, size=1),
         legend.position = "none",
-        plot.title = element_blank()) + scale_fill_manual(values = color_pal)
+        plot.title = element_text(face = "bold", size = 16, hjust = 0.5)) + scale_fill_manual(values = color_pal)
         #plot.title = element_text(face = "bold", size = 16, hjust = 0.5))
 
 
@@ -40,7 +40,7 @@ metadata(sce)$BayesSpace.data$is.enhanced <- FALSE
 
 p2 <- clusterPlot(sce, label=colData(sce)$label, palette=NULL, size=0.05) +
   #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,1]) +
-  labs(title="K = 5", fill = "Domains") + 
+  labs(title="Spatial pattern II", fill = "Domains") + 
   theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
         legend.key.height = unit(0.5, 'cm'), #change legend key height
         legend.key.width = unit(0.5, 'cm'), #change legend key width
@@ -48,7 +48,7 @@ p2 <- clusterPlot(sce, label=colData(sce)$label, palette=NULL, size=0.05) +
         legend.text = element_text(face = "bold", size=12),#change legend text font size
         panel.border = element_rect(colour = "black", fill=NA, size=1), 
         legend.position = "none",
-        plot.title = element_blank()) + scale_fill_manual(values = color_pal)
+        plot.title = element_text(face = "bold", size = 16, hjust = 0.5)) + scale_fill_manual(values = color_pal)
         #plot.title = element_text(face = "bold", size = 16, hjust = 0.5))
 
 
@@ -59,7 +59,7 @@ metadata(sce)$BayesSpace.data$is.enhanced <- FALSE
 
 p3 <- clusterPlot(sce, label=colData(sce)$label, palette=NULL, size=0.05) +
   #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,1]) +
-  labs(title="K = 7", fill = "Domains") + 
+  labs(title="Spatial pattern III", fill = "Domains") + 
   theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
         legend.key.height = unit(0.5, 'cm'), #change legend key height
         legend.key.width = unit(0.5, 'cm'), #change legend key width
@@ -67,7 +67,7 @@ p3 <- clusterPlot(sce, label=colData(sce)$label, palette=NULL, size=0.05) +
         legend.text = element_text(face = "bold", size=12),#change legend text font size
         panel.border = element_rect(colour = "black", fill=NA, size=1), 
         legend.position = "none",
-        plot.title = element_blank()) + scale_fill_manual(values = color_pal)
+        plot.title = element_text(face = "bold", size = 16, hjust = 0.5)) + scale_fill_manual(values = color_pal)
         #plot.title = element_text(face = "bold", size = 16, hjust = 0.5))
 
 #show_col(color_pal)
@@ -90,7 +90,7 @@ colData(sce1)$label = factor(colData(sce1)$label, levels = c("L1", "L2", "L3", "
 
 p4 <- clusterPlot(sce1, label=colData(sce1)$label, palette=NULL, size=0.05) +
   #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,1]) +
-  labs(title="K = 7", fill = "Domains") + 
+  labs(title="Spatial pattern IV", fill = "Domains") + 
   theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
         legend.key.height = unit(0.5, 'cm'), #change legend key height
         legend.key.width = unit(0.5, 'cm'), #change legend key width
@@ -98,7 +98,7 @@ p4 <- clusterPlot(sce1, label=colData(sce1)$label, palette=NULL, size=0.05) +
         legend.text = element_text(face = "bold", size=12),#change legend text font size
         panel.border = element_rect(colour = "black", fill=NA, size=1), 
         legend.position = "none",
-        plot.title = element_blank()) + scale_fill_manual(values = color_pal)
+        plot.title = element_text(face = "bold", size = 16, hjust = 0.5)) + scale_fill_manual(values = color_pal)
 #plot.title = element_text(face = "bold", size = 16, hjust = 0.5))
 
 

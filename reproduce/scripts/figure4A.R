@@ -76,7 +76,7 @@ plot_cluster <- function(sampleID){
   
   p1 <- clusterPlot(sce2, label=colData(sce2)$label, palette=NULL, size=0.05) +
     #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,1]) +
-    labs(title="Ground Truth", fill = "Domains") + scale_fill_manual(values = color_pal[1:length(unique(colData(sce2)$label))]) +
+    labs(title="Mannual annotation", fill = "Domains") + scale_fill_manual(values = color_pal[1:length(unique(colData(sce2)$label))]) +
     theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
           legend.key.height = unit(0.5, 'cm'), #change legend key height
           legend.key.width = unit(0.5, 'cm'), #change legend key width
@@ -112,7 +112,7 @@ plot_cluster <- function(sampleID){
   spaGCN_7 = as.factor(spaGCN_7)
   p6 <- clusterPlot(sce2, label= spaGCN_7, palette=NULL, size=0.05) +
     #scale_fill_viridis_d(option = "A", labels = 1:clustNumMat[j,2]) +
-    labs(title=paste0("spaGCN: ARI=", round(spaGCN_ARI, 3)), fill = "Domains") + 
+    labs(title=paste0("SpaGCN: ARI=", round(spaGCN_ARI, 3)), fill = "Domains") + 
     scale_fill_manual(values = color_assign(spaGCN_7, colData(sce2)$label, color_pal)) +
     theme(legend.key.size = unit(0.5, 'cm'), #change legend key size
           legend.key.height = unit(0.5, 'cm'), #change legend key height

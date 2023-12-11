@@ -30,8 +30,7 @@ AAAA
 BBBB
 "
 
-p = p1 + p2 +
-  plot_annotation(tag_levels = "A") + plot_layout(design = layout, heights = c(0.75, 1))
+p = p1 + p2 + plot_layout(design = layout, heights = c(0.75, 1))
 
 
 ggsave(p, filename = "reproduce/figures_and_tables/figure4ab.png", width = 16, height = 14)

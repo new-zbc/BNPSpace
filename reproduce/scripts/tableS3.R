@@ -26,6 +26,6 @@ colnames(res_mean) = c("pi", "K", "Sensitivity", "Specificity", "MCC", "AUC")
 
 colnames(res_sd) = c("pi", "K", "Sensitivity", "Specificity", "MCC", "AUC")
 
-write.csv(res_mean, file = "reproduce/figures_and_tables/table1mean.csv")
+write.csv(res_mean, file = "reproduce/figures_and_tables/tableS3mean.csv")
 
-write.csv(res_sd, file = "reproduce/figures_and_tables/table1sd.csv")
+write.csv(res_sd, file = "reproduce/figures_and_tables/tableS3sd.csv")

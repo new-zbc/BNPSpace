@@ -144,4 +144,4 @@ x[[10]] <- x[[10]] + scale_fill_manual(values = c("#E377C2FF", "#F7B6D2FF", "#8C
 
 pCluster = x[[10]]
 
-ggsave(pCluster, filename = "reproduce/figures_and_tables/figure5E.png", width = 5, height = 5, bg = "white")
+ggsave(pCluster, filename = "reproduce/figures_and_tables/figure4E.png", width = 5, height = 5, bg = "white")

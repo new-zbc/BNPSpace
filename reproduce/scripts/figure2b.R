@@ -19,8 +19,9 @@ dataRader = function(data_folder){
                        DRSC = data3[, 1], BayesSpace = data4, spaGCN = data5,
                         Louvain = data7[, 1])
   colnames(data_ARI)[2] = "BNPSpace w/o MRF"
-  colnames(data_ARI)[4] = "DRSC"
-  colnames(data_ARI)[6] = "spaGCN"
+  colnames(data_ARI)[3] = "SC-MEB"
+  colnames(data_ARI)[4] = "DR-SC"
+  colnames(data_ARI)[6] = "SpaGCN"
   
   library(reshape2)
   data = melt(data_ARI)
@@ -77,7 +78,7 @@ data13 = cbind(data13, K = rep("Spatial pattern IV", dim(data3)[1]), pi = rep("H
 data_ARI = rbind(data1, data2, data3, data4, data5, data6, data7, data8, data9, data11, data12, data13)
 
 data_ARI$Method = factor(data_ARI$Method, levels = c("BNPSpace", "BNPSpace w/o MRF","BayesSpace",
-                                                     "spaGCN", "SCMEB", "Louvain","DRSC"))
+                                                     "SpaGCN", "SC-MEB", "Louvain","DR-SC"))
 #data_ARI$pi = factor(data_ARI$pi, levels = c("0.1", "0.2", "0.3"), 
 #                    labels = c("0.1" = expression(pi == "0.1"), "0.2" = expression(pi == "0.2"), "0.3" = expression(pi == "0.3")))
 
@@ -88,13 +89,13 @@ box_ARI = ggplot(data = data_ARI, aes(x = Method, y = ARI, fill = Method)) +
   stat_boxplot(geom ="errorbar", width=0.15,position=position_dodge(0.8)) +
   geom_boxplot() + facet_grid(pi ~K, scales = "free") + 
   theme_bw()+
-  theme(legend.title = element_text(size = 18, face = "bold"), 
+  theme(legend.title = element_text(size = 16, face = "bold"), 
         axis.title.x = element_blank(), 
         axis.text.x = element_blank(),
         axis.text.y = element_text(size = 12, face = "bold"), 
-        axis.title.y = element_text(size = 18, face = "bold"),
-        strip.text = element_text(face = "bold", size = 18),
-        legend.text = element_text(size = 15), 
+        axis.title.y = element_text(size = 16, face = "bold"),
+        strip.text = element_text(face = "bold", size = 16),
+        legend.text = element_text(size = 14), 
         legend.position = "bottom") 
 #scale_fill_manual(values = c("#D62728FF", "#E377C2FF", "#9467BDFF", "#1F77B4FF", 
 #  "#FF7F0EFF", "#2CA02CFF","#7F7F7FFF", "#BCBD22FF"))

@@ -8,7 +8,7 @@ plot_ARI = function(sampleID){
   load(file_name)
   
   ARI_K_results = ARI_K_results[, -c(5, 6)]
-  colnames(ARI_K_results) = c("K", "SCMEB", "DRSC", "BayesSpace", "Louvain", "spaGCN")
+  colnames(ARI_K_results) = c("K", "SC-MEB", "DR-SC", "BayesSpace", "Louvain", "SpaGCN")
   
   library(reshape)
   ARI_K_results_melt = melt(ARI_K_results, id.vars = "K", variable_name = "Method")
@@ -37,8 +37,8 @@ plot_ARI = function(sampleID){
     df$yend[which(df$K == k)] = max(ARI_K_results_melt$ARI[ARI_K_results_melt$K == k])
   }
   
-  ARI_K_results_melt$Method = factor(ARI_K_results_melt$Method, levels = c("BNPSpace", "BayesSpace", "spaGCN",
-                                                                           "DRSC", "SCMEB", "Louvain"))
+  ARI_K_results_melt$Method = factor(ARI_K_results_melt$Method, levels = c("BNPSpace", "BayesSpace", "SpaGCN",
+                                                                           "DR-SC", "SC-MEB", "Louvain"))
   
   
   p <- ggplot() + geom_point(data = ARI_K_results_melt, aes(x = K, y = ARI, color = Method, shape = Method), size = 5)
