@@ -86,4 +86,4 @@ library(patchwork)
 p + PPI_plot + plot_layout(nrow = 1)
 ```
 
-![result](D:\OneDrive - The Chinese University of Hong Kong\Project\BNPSpace\github\BNPSpace\demo\result.jpeg)
+![result](demo\result.jpeg)
