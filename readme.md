@@ -86,4 +86,4 @@ library(patchwork)
 p + PPI_plot + plot_layout(nrow = 1)
 ```
 
-![result](demo\result.jpeg)
+![result](demo/result.jpeg)
