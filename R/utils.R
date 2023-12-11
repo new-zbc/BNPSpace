@@ -8,7 +8,7 @@ library(SingleCellExperiment)
 # platform: "ST" or "Visium"
 # coordinate : "lattice" or "image"
 find_neighbors <- function(sce, platform="ST", coordinate="lattice"){
-  library(purrr)
+  suppressMessages(library(purrr))
   library(Matrix)
   if (platform == "Visium") {
     ## Spots to left and right, two above, two below

@@ -11,7 +11,7 @@ source("R/main.R")
 Adj = find_neighbors(sce, "ST", "image")
 
 neighbors = find_neighbor_index(Adj, "ST")
-result = NSCFS(sce, neighbors, n_clusters = NULL, f = 1, n_iters = 300, seed = 1)
+result = NSCFS(sce, neighbors, n_clusters = NULL, d = 1, n_iters = 300, seed = 1)
 library(flexclust)
 pred_label = result$pred_label
 ARI_value = randIndex(table(pred_label, colData(sce)$label))

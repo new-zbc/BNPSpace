@@ -7,7 +7,7 @@ sourceCpp("R/fix_clusters_model.cpp")
 
 
 #### MCMC procedure
-NSCFS <- function(sce, Adj, n_clusters = NULL, f=1, K_init = 15, n_iters = 100, seed = seed){
+NSCFS <- function(sce, Adj, n_clusters = NULL, d=1, K_init = 15, n_iters = 100, seed = seed){
   
   set.seed(seed)
   data_set = as.matrix(t(assay(sce, "counts")))
@@ -36,7 +36,7 @@ NSCFS <- function(sce, Adj, n_clusters = NULL, f=1, K_init = 15, n_iters = 100, 
     pi_t = 1 - mean(R_t)
     
     
-    result = runMCMC(group_t-1, D_t, gamma_t, D_0_t, R_t, pi_t, f, a, b, GAMMA, 
+    result = runMCMC(group_t-1, D_t, gamma_t, D_0_t, R_t, pi_t, f=d, a, b, GAMMA, 
                      aw, bw, ar, br, data_set, Adj, sizeFactors(sce), n_iters)
     
     max_class = max(result$K_iter)
@@ -61,7 +61,7 @@ NSCFS <- function(sce, Adj, n_clusters = NULL, f=1, K_init = 15, n_iters = 100, 
     R_t[data_set == 0] = 1
     pi_t = 1 - mean(R_t)
     
-    result = run_fix_clusters(group_t-1, D_t, gamma_t, D_0_t, R_t, pi_t, f, a, b, 
+    result = run_fix_clusters(group_t-1, D_t, gamma_t, D_0_t, R_t, pi_t, f=d, a, b, 
                               aw, bw, ar, br, data_set, Adj, sizeFactors(sce), n_iters)
     
     prob_pred = matrix(0, N, n_clusters)

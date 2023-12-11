@@ -4,6 +4,7 @@ library(flexclust)
 library(scater)
 library(scran)
 source("R/utils.R")
+source("R/main.R")
 
 set.seed(1)
 load("application/MOB/data/MOB_sce.RData")

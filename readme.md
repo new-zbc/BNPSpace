@@ -47,7 +47,7 @@ source("R/main.R")
 ### construct spots network
 Adj = find_neighbors(sce, "ST", "image")
 neighbors = find_neighbor_index(Adj, "ST")
-result = NSCFS(sce, neighbors, n_clusters = NULL, f = 1, n_iters = 500, seed = 1)
+result = NSCFS(sce, neighbors, n_clusters = NULL, d = 1, n_iters = 500, seed = 1)
 pred_label = result$pred_label
 ARI_value = randIndex(table(pred_label, colData(sce)$label))
 ```
@@ -87,3 +87,10 @@ p + PPI_plot + plot_layout(nrow = 1)
 ```
 
 ![result](demo/result.jpeg)
+
+### Tutorials
+
+For a tutorial on a real application, please refer to 
+
+[]: Tutorial.html	"Tutorials"
+
