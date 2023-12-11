@@ -92,3 +92,4 @@ p + PPI_plot + plot_layout(nrow = 1)
 
 For a tutorial on a real application, please refer to  [Tutorial.html](https://new-zbc.github.io/BNPSpace/Tutorial.html) 
 
+If there is any bugs without being fixed timely, please contact author directly [zhubencong@gmail.com](mailto:zhubencong@gmail.com)
