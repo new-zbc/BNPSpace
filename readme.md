@@ -2,9 +2,7 @@
 
 ### Overview
 
-BNPSpace is a Bayesian nonparametric spatial clustering framework with feature selection for spatial transcriptomic data. This framework integrates four components into a hierarchical model. Firstly, it employs a multivariate count-generating process based on the zero-inflated Poisson (ZIP) model for directly modeling SRT count data, thereby avoiding the need for *ad hoc* data normalization methods. Secondly, BNPSpace adopts a feature selection strategy to provide low-dimensional representations of SRT data in terms of a list of discriminating genes (DGs), thus facilitating direct biological interpretability. Distinctively, BNPSpace clusters samples based on the similarity of their DG count vectors using a mixture of finite mixtures (MFM) model, allowing for an automatic selection of
-the number of spatial domains. Moreover, BNPSpace uses an MRF prior to accounting for
-the geospatial profile of SRT data, which in turn enhances clustering accuracy. 
+BNPSpace is a Bayesian nonparametric spatial clustering framework with feature selection for spatial transcriptomic data. This framework integrates four components into a hierarchical model. Firstly, it employs a multivariate count-generating process based on the zero-inflated Poisson (ZIP) model for directly modeling SRT count data, thereby avoiding the need for *ad hoc* data normalization methods. Secondly, BNPSpace adopts a feature selection strategy to provide low-dimensional representations of SRT data in terms of a list of discriminating genes (DGs), thus facilitating direct biological interpretability. Distinctively, BNPSpace clusters samples based on the similarity of their DG count vectors using a mixture of finite mixtures (MFM) model, allowing for an automatic selection of the number of spatial domains. Moreover, BNPSpace uses an MRF prior to accounting for the geospatial profile of SRT data, which in turn enhances clustering accuracy. 
 
 ### User manual
 
