@@ -1,3 +1,8 @@
+library(BayesSpace)
+library(ggplot2)
+library(ggsci)
+library(patchwork)
+
 merge_list <- function(sampleID){
   
   color_pal = c("#E377C2FF", "#9467BDFF", "#1F77B4FF", "#D62728FF", "#FF7F0EFF", "#2CA02CFF",
@@ -65,10 +70,7 @@ merge_list <- function(sampleID){
     }
   }
   
-  library(BayesSpace)
-  library(ggplot2)
-  library(ggsci)
-  library(patchwork)
+  
   
   
   metadata(sce2)$BayesSpace.data <- list()
@@ -101,21 +103,23 @@ merge_list <- function(sampleID){
 }
 
 
-plot_merge <- function(sampleID){
-  
-  plot_list = merge_list(sampleID)
-  
-  p = plot_list[[1]]
-  for(i in 2:length(plot_list)){
-    p = p + plot_list[[i]]
-  }
-  p = p + plot_layout(ncol = 4)
-  
-  p
-}
+# plot_merge <- function(sampleID){
+#   
+#   plot_list = merge_list(sampleID)
+#   
+#   p = plot_list[[1]] + plot_list[[2]]
+#   for(i in 2:length(plot_list)){
+#     p = p + plot_list[[i]]
+#   }
+#   p = p + plot_layout(ncol = 4)
+#   
+#   p
+# }
 
-pMerge = plot_merge(151509)
+plot_list = merge_list(151509)
 
-ggsave(pMerge, filename = "reproduce/figures_and_tables/figureS7.png", width = 20, height = 15, units = "in")
+pMerge = ggpubr::ggarrange(plotlist = plot_list, nrow = 3, ncol = 4)
 
-ggsave(pMerge, filename = "reproduce/figures_and_tables/figureS7.pdf", width = 20, height = 15)
+ggsave(pMerge, filename = "reproduce/figures_and_tables/figureS10.png", width = 20, height = 15, units = "in", bg = "white")
+
+ggsave(pMerge, filename = "reproduce/figures_and_tables/figureS10.pdf", width = 20, height = 15, units = "in", bg = "white")

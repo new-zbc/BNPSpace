@@ -1,3 +1,4 @@
+library(flexclust)
 plot_exp <- function(sampleID){
   
   source("R/utils.R")
@@ -10,7 +11,7 @@ plot_exp <- function(sampleID){
   Adj = find_neighbors(sce2, "Visium", "lattice")
   neighbors = find_neighbor_index(Adj, "Visium")
   
-  #construc Seurat object
+  #construct Seurat object
   library(Seurat)
   seu = as.Seurat(sce2, counts = "counts", data = "logcounts", project = "sce_to_seurat")
   
