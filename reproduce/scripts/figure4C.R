@@ -1,4 +1,5 @@
 library(flexclust)
+library(ggplot2)
 plot_exp <- function(sampleID){
   
   source("R/utils.R")
@@ -47,7 +48,7 @@ plot_exp <- function(sampleID){
   }
   
   seu@meta.data$pred_label = pred_label
-  seu@assays$originalexp@data@Dimnames[[1]] = seu@assays$originalexp@meta.features$gene_name
+  #seu@assays$originalexp@data@Dimnames[[1]] = seu@assays$originalexp@meta.features$gene_name
   
   seu = ScaleData(seu)
   
